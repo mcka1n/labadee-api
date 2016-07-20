@@ -34,6 +34,9 @@ class User
   # field :unlock_token,    type: String # Only if unlock strategy is :email or :both
   # field :locked_at,       type: Time
 
+  has_many :events
+  has_many :attendees, :dependent => :destroy
+
   def assign_fresh_token!
     self.token = Devise.friendly_token
     self.save!

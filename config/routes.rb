@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   end
 
   namespace :v1 do
-    
+    resources :events, defaults: {format: :json} do
+      resources :attendees, defaults: {format: :json}
+    end
   end
 
   root :to => redirect('/sign_in')

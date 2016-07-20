@@ -1,5 +1,5 @@
 module V1
   class BaseController < ::ApplicationController
-    # TODO: Write something cool here
+    respond_to :json
   end
 end
