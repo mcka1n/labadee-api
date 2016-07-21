@@ -12,13 +12,25 @@ module V1
 
     def create
       result = {}
-      # event = Event.find_or_create_by(user_id: current_user.id, name: params[:name], description: params[:description])
+      event = Event.create(
+        user_id: current_user.id,
+        name: params[:name],
+        description: params[:description],
+        address: params[:address],
+        zip: params[:zip],
+        country: params[:country],
+        start_date: params[:start_date],
+        end_date: params[:end_date],
+        category: params[:category]
+      )
+
       if event.errors.messages.empty?
         result = event
+        render json: result
       else
         result = event.errors
+        render json: result, status: 422
       end
-      render json: result
     end
   end
 end
