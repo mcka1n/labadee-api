@@ -7,7 +7,11 @@ module V1
 
     def show
       event = Event.where(id: params[:id]).first
-      render json: event
+      if event.present?
+        render json: event
+      else
+        render json: {}, status: 404
+      end
     end
 
     def create
