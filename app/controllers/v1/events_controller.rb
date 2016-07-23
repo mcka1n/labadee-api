@@ -36,6 +36,11 @@ module V1
       render json: event
     end
 
+    def destroy
+      event = Event.where(id: params[:id]).first
+      event.destroy
+    end
+
     private
 
     def event_params
