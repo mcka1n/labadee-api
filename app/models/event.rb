@@ -8,8 +8,8 @@ class Event
   field :address,         type: String
   field :zip,             type: String
   field :country,         type: String
-  field :start_date,      type: String      # This should be DateTime.
-  field :end_date,        type: String      # This should be DateTime.
+  field :start_date,      type: DateTime
+  field :end_date,        type: DateTime
   field :category,        type: String
   field :latitude,        type: String      # Todo: Use Geocode to get the real coordinates.
   field :longitude,       type: String

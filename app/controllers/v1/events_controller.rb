@@ -16,17 +16,9 @@ module V1
 
     def create
       result = {}
-      event = Event.create(
-        user_id: current_user.id,
-        name: params[:name],
-        description: params[:description],
-        address: params[:address],
-        zip: params[:zip],
-        country: params[:country],
-        start_date: params[:start_date],
-        end_date: params[:end_date],
-        category: params[:category]
-      )
+      event = Event.new(event_params)
+      event.user_id = current_user.id
+      event.save
 
       if event.errors.messages.empty?
         result = event
@@ -35,6 +27,19 @@ module V1
         result = event.errors
         render json: result, status: 422
       end
+    end
+
+    def update
+      event = Event.where(id: params[:id]).first
+      event.update_attributes(event_params)
+
+      render json: event
+    end
+
+    private
+
+    def event_params
+      params.required(:event).permit!
     end
   end
 end
