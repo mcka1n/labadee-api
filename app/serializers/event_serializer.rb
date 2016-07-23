@@ -1,6 +1,6 @@
 class EventSerializer < ActiveModel::Serializer
   attributes :id, :user_id, :name, :description, :address, :zip, :country,
-    :start_date, :end_date, :category, :latitude, :longitude, :rank,
+    :start_date, :end_date, :category, :coordinates, :rank,
     :hide, :attendees, :created_at, :updated_at
 
   has_many :attendees
