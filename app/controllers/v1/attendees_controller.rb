@@ -2,7 +2,12 @@ module V1
   class AttendeesController < BaseController
     def index
       event = Event.where(id: params[:event_id]).first
-      render json: event.attendees
+
+      if event.present?
+        render json: event.attendees
+      else
+        render json: [], status: 404
+      end
     end
 
     def show
