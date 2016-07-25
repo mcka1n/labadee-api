@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate_user_with_token
-    if params[:token] && user = User.find_by(token: params[:token])
+    if params[:token] && user = User.where(token: params[:token]).first
       @current_user = user
     else
       render json: {message: "Invalid token"}, status: :unauthorized
