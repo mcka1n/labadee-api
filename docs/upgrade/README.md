@@ -59,3 +59,10 @@ static-file settings, and string middleware references were updated, and the
 unrelated sample CORS policy was removed. `app:update` was run and its generated
 SQL/assets/session scaffolding was reviewed and excluded because these frameworks
 are disabled or the original session behavior must be preserved.
+
+| 5.1.7 | 2.5.5 | 6.4.8 | 4.4.29 | 31 tests / 179 assertions, passing before and after defaults |
+
+At Rails 5.1 the compatible driver resolved to 2.21, which rejects MongoDB
+3.4's wire protocol. The gate caught this before advancement. A separate fresh
+MongoDB 4.4.29 volume was used, leaving the 3.4 volume intact. Defaults 5.1 were
+then enabled and the complete suite passed again.

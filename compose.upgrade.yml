@@ -22,15 +22,16 @@ services:
         condition: service_healthy
   mongo:
     platform: linux/amd64
-    image: mongo:${UPGRADE_MONGO_VERSION:-3.4.24}
+    image: mongo:${UPGRADE_MONGO_VERSION:-4.4.29}
     volumes:
-      - legacy_mongo_3_4:/data/db
+      - upgrade_mongo:/data/db
     healthcheck:
       test: ["CMD", "mongo", "--quiet", "--eval", "quit(db.adminCommand('ping').ok ? 0 : 1)"]
       interval: 5s
       timeout: 5s
       retries: 20
 volumes:
-  legacy_mongo_3_4:
+  upgrade_mongo:
+    name: labadee-upgrade-mongo-${UPGRADE_MONGO_VERSION:-4.4.29}
   upgrade_gems:
     name: labadee-upgrade-gems-${UPGRADE_RUBY_VERSION:-2.5.5}

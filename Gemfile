@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rails', '5.0.7.2'
+gem 'rails', '5.1.7'
 gem 'spring', :group => :development
 
-gem 'mongoid', '~> 6.1.1'
+gem 'mongoid', '6.4.8'
 gem 'devise', '~> 4.7.2'
 gem 'active_model_serializers', '~> 0.10.10'
 gem 'geocoder', '~> 1.6.3'
