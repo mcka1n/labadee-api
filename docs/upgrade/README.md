@@ -94,3 +94,5 @@ Bundler 2.3.27 was verified independently on Rails 6.1 / Ruby 2.5.5:
 
 Ruby 2.7.8 was built independently with the same locked application gems and a
 separate gem volume; the complete regression suite passed.
+
+Mongoid 8.0.13 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips.
