@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile.upgrade
       args:
         RUBY_VERSION: ${UPGRADE_RUBY_VERSION:-2.5.5}
-        BUNDLER_VERSION: ${UPGRADE_BUNDLER_VERSION:-1.17.3}
+        BUNDLER_VERSION: ${UPGRADE_BUNDLER_VERSION:-2.3.27}
     environment:
       MONGODB_URI: mongodb://mongo:27017/labadee_upgrade_development
       MONGODB_TEST_URI: mongodb://mongo:27017/labadee_upgrade_test

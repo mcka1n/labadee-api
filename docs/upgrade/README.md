@@ -86,3 +86,6 @@ Zeitwerk eager loading passed.
 
 Active Model Serializers 0.10.16 preserved the v1 response contracts.
 Defaults 6.1 passed separately. Spring and its binstub hooks were removed.
+
+Bundler 2.3.27 was verified independently on Rails 6.1 / Ruby 2.5.5:
+31 tests / 154 assertions, passing. The lockfile changed only its Bundler version.

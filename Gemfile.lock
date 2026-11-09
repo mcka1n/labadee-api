@@ -198,4 +198,4 @@ DEPENDENCIES
   rails (= 6.1.7.10)
 
 BUNDLED WITH
-   1.17.3
+   2.3.27
