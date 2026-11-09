@@ -141,3 +141,5 @@ without adding a legacy stdlib shim. The application gems remain unchanged.
 The final Ruby runtime and Bundler 4.0.24 passed on Rails 7.2 before Rails 8.
 
 Rails 8.0.5.2 / Ruby 3.4.12 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
+
+Rails 8.1.4.1 / Ruby 3.4.12 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
