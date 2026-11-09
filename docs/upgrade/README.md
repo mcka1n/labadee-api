@@ -1,169 +1,133 @@
 # Upgrade execution record
 
-Original revision: `7dd3bdd513758376f40ebdf5ea517d3f80211aa8`.
-Recovery tag: `upgrade/original-rails-5.0`.
-A Git bundle was saved locally to `/private/tmp/labadee-api-before-upgrade.bundle`.
-No `labadee*` databases were present on the laptop's MongoDB instance when checked.
-Existing MongoDB services and data directories are not used by the upgrade.
+Completed locally on November 9, 2026, on branch `upgrade/rails-8.1`.
+The running native container reports Ruby 3.4.12, Rails 8.1.4.1, Mongoid 9.1.1,
+MongoDB 8.0.34, platform `aarch64-linux`, and non-root UID 1000.
 
-The original lockfile recorded Bundler 2.1.2 despite Rails 5.0 requiring Bundler
-below 2. The bootstrap uses Bundler 1.17.3 and keeps all original gem versions.
+## Recovery and data boundaries
 
-Run legacy checkpoints with:
+- Original revision: `7dd3bdd513758376f40ebdf5ea517d3f80211aa8`.
+- Original code and lockfile: tag `upgrade/original-rails-5.0`.
+- Local Git backup: `/private/tmp/labadee-api-before-upgrade.bundle` (mode 0600).
+- No `labadee*` databases were present on the laptop's MongoDB instance when
+  checked. Its service and data directory were not changed.
+- Fresh, separate Docker volumes were used for MongoDB 3.4, 4.4, and 8.0.
+  No server major version was pointed at another version's data directory.
+- The final Compose project is `labadee`; archived checkpoint testing uses
+  `labadee-upgrade`. Legacy runtimes are for isolated recovery/testing only.
 
-```sh
-docker compose -p labadee-upgrade -f compose.upgrade.yml build app
-docker compose -p labadee-upgrade -f compose.upgrade.yml run --rm app bin/rails test
-```
+Every checkpoint below passed before its commit/tag was created. Recovery tags
+are `upgrade/rails-VERSION`, `upgrade/ruby-VERSION`, `upgrade/mongoid-VERSION`,
+and `upgrade/mongodb-8.0.34`. Framework defaults were checked separately where
+supported; Zeitwerk checks began at Rails 6.0. See the root README for commands.
 
-Legacy images run as linux/amd64 for archived Ruby/MongoDB compatibility on
-Apple Silicon. These obsolete runtimes are for isolated local testing only.
+## Verified checkpoints
 
-## Existing defects to distinguish from supported behavior
-
-- Event update/delete and attendee creation dereference missing records.
-- Attendee lookup is not scoped to the event in the URL.
-- Event parameters accept every attribute; update/delete lack ownership checks.
-- Attendee update/delete and HTML form routes are generated but not implemented.
-- Devise generates additional routes without API-specific implementations.
-- The root redirects to `/sign_in`, which is not a defined route.
-- Only passwords were filtered from logs; query-string API credentials were not.
-- CORS is configured twice and the API policy omits PUT/PATCH/DELETE.
-- `bin/setup` assumes SQL database setup and seeds contain a fixed password.
-
-Execution results and necessary compatibility changes are recorded below as
-each checkpoint is verified. No checkpoint is considered passing until its
-tests have actually run.
-
-## Verified baseline
-
-Rails 5.0.0 / Ruby 2.5.5 / Mongoid 6.1.1 / MongoDB 3.4.24:
-**31 tests, 179 assertions, no failures/errors/skips**.
-
-Two original-toolchain repairs were required: an original-version-only OpenSSL
-cipher-key truncation shim (removed at Rails 5.0.7.2), and Minitest 5.9.1 for the
-Rails 5.0.0 reporter. No original application gem was otherwise changed.
-The observed foreign keys are BSON ObjectIds (Mongoid's association definitions
-override the declared String fields); JSON serializers expose strings. Geocoder
-stores coordinates in MongoDB longitude/latitude order. Both contracts are tested.
-
-## Checkpoints
-
-| Rails | Ruby | Mongoid | MongoDB | Regression gate |
+| Rails | Ruby | Mongoid | MongoDB | Tests / assertions |
 |---|---|---|---|---|
-| 5.0.0 | 2.5.5 | 6.1.1 | 3.4.24 | 31 tests / 179 assertions, passing |
-| 5.0.7.2 | 2.5.5 | 6.1.1 | 3.4.24 | 31 tests / 179 assertions, passing |
+| 5.0.0 | 2.5.5 | 6.1.1 | 3.4.24 | 31 / 179 |
+| 5.0.7.2 | 2.5.5 | 6.1.1 | 3.4.24 | 31 / 179 |
+| 5.1.7 | 2.5.5 | 6.4.8 | 4.4.29 | 31 / 179 |
+| 5.2.8.1 | 2.5.5 | 7.6.2 | 4.4.29 | 31 / 179 |
+| 6.0.6.1 | 2.5.5 | 7.6.2 | 4.4.29 | 31 / 154 |
+| 6.1.7.10 | 2.5.5 | 7.6.2 | 4.4.29 | 31 / 154 |
+| 6.1.7.10 | 2.7.8 | 7.6.2 | 4.4.29 | 31 / 154 |
+| 6.1.7.10 | 2.7.8 | 8.0.13 | 4.4.29 | 31 / 154 |
+| 6.1.7.10 | 2.7.8 | 8.1.13 | 4.4.29 | 31 / 154 |
+| 6.1.7.10 | 2.7.8 | 9.0.12 | 4.4.29 | 31 / 154 |
+| 6.1.7.10 | 2.7.8 | 9.1.1 | 4.4.29 | 31 / 154 |
+| 6.1.7.10 | 3.1.7 | 9.1.1 | 4.4.29 | 31 / 154 |
+| 6.1.7.10 | 3.1.7 | 9.1.1 | 8.0.34 | 31 / 154 |
+| 7.0.10 | 3.1.7 | 9.1.1 | 8.0.34 | 31 / 154 |
+| 7.1.6 | 3.1.7 | 9.1.1 | 8.0.34 | 31 / 154 |
+| 7.2.4 | 3.1.7 | 9.1.1 | 8.0.34 | 31 / 154 |
+| 7.2.4 | 3.4.12 | 9.1.1 | 8.0.34 | 31 / 154 |
+| 8.0.5.2 | 3.4.12 | 9.1.1 | 8.0.34 | 31 / 154 |
+| 8.1.4.1 | 3.4.12 | 9.1.1 | 8.0.34 | 31 / 154 |
+| Final hardening/native image | 3.4.12 | 9.1.1 | 8.0.34 | **45 / 262** |
 
-Rails 5.0.7.2 removes the temporary cipher shim. Deprecated callback names,
-static-file settings, and string middleware references were updated, and the
-unrelated sample CORS policy was removed. `app:update` was run and its generated
-SQL/assets/session scaffolding was reviewed and excluded because these frameworks
-are disabled or the original session behavior must be preserved.
+All listed gates had zero failures, errors, and skips. The assertion count
+changed at Rails 6.0 because the deprecated MIME-type regex assertion became a
+single exact `media_type` assertion; the same 31 contract cases were retained.
+The final suite adds 14 security, configuration, setup, and logging cases.
 
-| 5.1.7 | 2.5.5 | 6.4.8 | 4.4.29 | 31 tests / 179 assertions, passing before and after defaults |
+## Compatibility decisions and failures caught
 
-At Rails 5.1 the compatible driver resolved to 2.21, which rejects MongoDB
-3.4's wire protocol. The gate caught this before advancement. A separate fresh
-MongoDB 4.4.29 volume was used, leaving the 3.4 volume intact. Defaults 5.1 were
-then enabled and the complete suite passed again.
-
-| 5.2.8.1 | 2.5.5 | 7.6.2 | 4.4.29 | 31 tests / 179 assertions, passing before and after defaults |
-
-Rails 5.2 and Mongoid 7 preserve BSON foreign keys and all JSON contracts.
-Minitest was moved to 5.15.0 after leaving the release-era Rails reporter.
-The hardcoded secret token was removed; remaining Rails 5 secrets configuration
-now reads the environment only. Defaults 5.2 passed separately.
-
-| 6.0.6.1 | 2.5.5 | 7.6.2 | 4.4.29 | 31 tests / 154 assertions; Zeitwerk passing |
-
-Rails 6.0 passed before and after enabling defaults 6.0. Logger is now required
-explicitly because newer concurrent-ruby no longer loads it for old Rails.
-The Content-Type assertion now checks `media_type` directly, removing a
-framework deprecation and one redundant assertion per response (same coverage).
-Zeitwerk eager loading passed.
-
-| 6.1.7.10 | 2.5.5 | 7.6.2 | 4.4.29 | 31 tests / 154 assertions, passing before and after defaults |
-
-Active Model Serializers 0.10.16 preserved the v1 response contracts.
-Defaults 6.1 passed separately. Spring and its binstub hooks were removed.
-
-Bundler 2.3.27 was verified independently on Rails 6.1 / Ruby 2.5.5:
-31 tests / 154 assertions, passing. The lockfile changed only its Bundler version.
-
-| 6.1.7.10 | 2.7.8 | 7.6.2 | 4.4.29 | 31 tests / 154 assertions, passing |
-
-Ruby 2.7.8 was built independently with the same locked application gems and a
-separate gem volume; the complete regression suite passed.
-
-Mongoid 8.0.13 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips.
-
-Mongoid 8.1.13 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips.
-
-Mongoid 9.0.12 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips.
-
-Mongoid 9.1.1 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips.
-
-The Ruby 3 parser bridge (Nokogiri and its required parser dependencies) was
-verified independently on Ruby 2.7.8: 31 tests / 154 assertions, passing.
-
-| 6.1.7.10 | 3.1.7 | 9.1.1 | 4.4.29 | 31 tests / 154 assertions, passing |
-
-Ruby 3.1.7 passed independently, including actual request authentication and
-MongoDB persistence. No keyword-argument regressions were introduced.
-
-| 6.1.7.10 | 3.1.7 | 9.1.1 | 8.0.34 | 31 tests / 154 assertions, passing |
-
-MongoDB 8.0.34 runs natively on the host architecture with its own volume.
-Mongoid's supported defaults version 9.1 is explicit. Existing 3.4/4.4 data
-volumes were not reused or converted.
-
-Rails 7.0 initially exposed Devise 4.7.2's removed
-`ActiveSupport::Dependencies.reference` call. Devise is updated to the current
-5.0.4 release as a prerequisite of this transition; no failing checkpoint was
-committed. The existing HTTP authentication suite remains the acceptance gate.
-
-Rails 7.0.10 / Ruby 3.1.7 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
-
-Rails 7.1.6 / Ruby 3.1.7 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
-
-Rails 7.2.4 / Ruby 3.1.7 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
-
-The Ruby 3.4 dependency bridge (Geocoder 1.8.6 and the compatible current
-parser dependencies) passed independently on Ruby 3.1.7 / Rails 7.2.4:
-31 tests / 154 assertions, no failures/errors/skips.
-
-The first Ruby 3.4 gate caught Minitest 5.15's dependency on removed stdlib
-`mutex_m`. The test framework is updated within the maintained 5.x line,
-without adding a legacy stdlib shim. The application gems remain unchanged.
-
-| 7.2.4 | 3.4.12 | 9.1.1 | 8.0.34 | 31 tests / 154 assertions, passing |
-
-The final Ruby runtime and Bundler 4.0.24 passed on Rails 7.2 before Rails 8.
-
-Rails 8.0.5.2 / Ruby 3.4.12 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
-
-Rails 8.1.4.1 / Ruby 3.4.12 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
-
-Final configuration/server/audit-tool setup: 31 tests / 154 assertions passing,
-Zeitwerk passing, production eager loading and isolated MongoDB ping passing.
-SQL configuration, fixed secrets, empty SQL fixtures, and unused generator
-scaffolding were removed. Native final-image verification follows separately.
+- Rails 5.0.0 requires Bundler below 2, but the original lockfile recorded 2.1.2.
+  Bundler 1.17.3 bootstrapped the original locked application gems.
+- The original Rails/OpenSSL combination needed an original-version-only
+  cipher-key truncation shim. Rails 5.0.7.2 supplied the upstream repair and the
+  shim was deleted. Minitest 5.9.1 matched the original reporter API; later
+  checkpoints used 5.15.0 and finally 5.27.0.
+- The driver selected with Mongoid 6.4 rejected MongoDB 3.4's wire protocol.
+  The gate caught this, and a fresh MongoDB 4.4 volume was used.
+- Despite old `String` declarations, association fields were stored as BSON
+  ObjectIds. Tests preserve the actual BSON storage and string JSON IDs.
+  Coordinates remain `[longitude, latitude]`.
+- Obsolete filter callbacks, middleware string references, static-file settings,
+  duplicate sample CORS configuration, and Spring hooks were removed. Logger is
+  required explicitly rather than relying on concurrent-ruby's old side effect.
+- Active Model Serializers 0.10.16 was verified before Rails 6.1. Devise 4.7.2
+  called the removed `ActiveSupport::Dependencies.reference` API on Rails 7;
+  Devise 5.0.4 resolved it and all HTTP authentication tests passed.
+- Bundler 2.3.27, parser dependencies, and geocoding updates were independently
+  verified before Ruby transitions. Ruby 3.4 exposed Minitest 5.15's removed
+  `mutex_m` stdlib dependency; updating Minitest resolved it without a shim.
+- `bin/rails app:update` ran at every Rails step. Generated SQL, asset, session,
+  deployment, and frontend scaffolding was reviewed and excluded where unused.
+  Defaults were explicitly adopted and tested. Active Record and unused storage,
+  text, mailbox, and cable engines remain disabled and are covered by a test.
+- Versions were resolved through named dependency updates and locked. The final
+  lockfile supports Linux ARM64, Linux x86-64, and Apple Silicon macOS. Actual
+  execution was verified on Linux x86-64 checkpoints and the native Linux ARM64
+  image; native macOS Ruby execution was not separately tested.
 
 ## Explicit security and error corrections
 
-These changes are separate from the framework checkpoints:
+Successful supported v1 routes and response fields were preserved. These
+negative-request corrections were made separately from framework checkpoints:
 
-- Only event owners may update/delete; other authenticated users get 403.
-- Event parameters allow documented data fields, not ownership or timestamps.
-- Attendee lookup is constrained to the event in the URL.
+- Only owners may update/delete events; other authenticated users receive 403.
+- Event parameters allow data fields, not ownership or internal timestamps.
+- Attendee reads are scoped to the event in the URL.
 - Missing/malformed IDs return JSON 404; invalid updates return field errors/422.
-- Credentials must be strings; malformed login bodies cannot become selectors.
-- CORS permits the implemented methods and HEAD; both parameters and query paths redact credentials.
-- Unique indexes enforce the existing uniqueness rules; association fields use
-  Mongoid's BSON keys rather than misleading overwritten String declarations.
+- Structured credentials cannot be used as MongoDB selectors.
+- CORS permits supported API methods and HEAD.
+- Unique indexes enforce existing uniqueness rules. Seeds use private environment
+  credentials, preserve existing credentials on repeat runs, and refuse production.
+- Rails filters credentials from parameters and request paths. The real HTTP
+  walkthrough additionally caught MongoDB DEBUG command logs bypassing those
+  filters. ODM/driver logging now has a separate WARN-level logger. A regression
+  test and a repeat HTTP/log inspection verified credentials are absent.
 
-Expanded gate: **44 tests / 257 assertions, passing**, including real unique-index
-rejection and idempotent private seeding. Zeitwerk and production eager loading /
-MongoDB connectivity passed. `bundler-audit` refreshed 1,353 advisories from the
-2026-11-09 database and found no vulnerabilities. Brakeman 8.1.0 reported zero
-warnings and zero errors, with no ignored findings.
+The old `/sign_in` root redirect, HTML forms, and extra unimplemented Devise and
+attendee routes remain outside the supported API contract. No new UI, SQL
+backend, authentication protocol, data conversion, or hosted deployment was added.
+
+## Final verification
+
+- Native Docker build completed with frozen dependencies and a non-root runtime.
+- **45 tests, 262 assertions; zero failures/errors/skips.**
+- Zeitwerk and eager loading passed; production configuration connected to the
+  isolated test database successfully.
+- `bundler-audit` refreshed 1,353 advisories (database updated 2026-11-09,
+  commit `bc80fbb16e7b8de1cad903bc061d1da65e15edcb`): **no vulnerabilities**.
+- Brakeman 8.1.0: **zero warnings and zero errors**, with no ignored findings.
+- Native `bin/setup` ran twice successfully, preserving seeded credentials.
+- Real HTTP registration, login/token rotation, old-token rejection, event
+  create/list/show/update/delete, attendance create/list/show, duplicate rejection,
+  and missing-record responses passed through Puma. Temporary smoke users were
+  removed afterward. A repeat log inspection found no credential values.
+- The API is running at `127.0.0.1:3000`; MongoDB has no host port published.
+- GitHub CI and monthly Dependabot/audit schedules are configured. Equivalent
+  checks ran locally; no GitHub push or remote workflow run was performed.
+
+## Primary references
+
+- [Rails upgrade guide](https://guides.rubyonrails.org/upgrading_ruby_on_rails.html)
+- [Rails maintenance policy](https://rubyonrails.org/maintenance)
+- [Rails 8.1.4.1 security release](https://rubyonrails.org/2026/11/4/Rails-8.0.5.2-and-8.1.4.1-have-been-released)
+- [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/)
+- [Mongoid compatibility](https://www.mongodb.com/docs/drivers/compatibility/?driver-language=ruby&ruby-driver-framework=mongoid)
+- [Mongoid release notes](https://www.mongodb.com/docs/mongoid/current/reference/release-notes/)
+- [Devise API-mode guidance](https://github.com/heartcombo/devise#rails-api-mode)
