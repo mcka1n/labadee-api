@@ -103,7 +103,9 @@ loading and MongoDB connectivity under production configuration with the
 isolated test database. Test cleanup refuses databases whose names do not end
 in `_test`. No actual email or external geocoding is used in tests.
 
-CI uses the same pinned Docker images and checks. Dependabot checks Ruby,
+CI uses the same pinned Docker images and checks on `ubuntu-22.04`. This runner's
+current 6.8 kernel avoids MongoDB 8.0.34's incompatibility with newer hosted-runner
+kernels. Reevaluate the runner pin when updating MongoDB. Dependabot checks Ruby,
 Docker, and Actions dependencies monthly; a scheduled CI run also refreshes the
 security audit monthly. These workflows become active when pushed to GitHub.
 

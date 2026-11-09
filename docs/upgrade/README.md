@@ -18,7 +18,8 @@ MongoDB 8.0.34, platform `aarch64-linux`, and non-root UID 1000.
 
 Every checkpoint below passed before its commit/tag was created. Recovery tags
 are `upgrade/rails-VERSION`, `upgrade/ruby-VERSION`, `upgrade/mongoid-VERSION`,
-and `upgrade/mongodb-8.0.34`. The final handoff is tagged `upgrade/complete`. Framework defaults were checked separately where
+and `upgrade/mongodb-8.0.34`. The initial handoff is tagged `upgrade/complete`;
+later CI compatibility corrections are separate commits. Framework defaults were checked separately where
 supported; Zeitwerk checks began at Rails 6.0. See the root README for commands.
 
 ## Verified checkpoints
@@ -120,7 +121,33 @@ backend, authentication protocol, data conversion, or hosted deployment was adde
   removed afterward. A repeat log inspection found no credential values.
 - The API is running at `127.0.0.1:3000`; MongoDB has no host port published.
 - GitHub CI and monthly Dependabot/audit schedules are configured. Equivalent
-  checks ran locally; no GitHub push or remote workflow run was performed.
+  checks passed locally. The first remote run exposed the host-kernel issue
+  described below.
+
+## GitHub runner compatibility correction
+
+[Run 42709502873](https://github.com/mcka1n/labadee-api/actions/runs/42709502873)
+built the application image successfully, then MongoDB exited before tests ran.
+The MongoDB log explicitly rejected Linux kernels 6.19 and newer. That job used
+Ubuntu 24.04 runner image `20261101.360.1`, whose kernel was `7.0.0-1017-azure`.
+Docker containers share the host kernel, so the pinned database image alone
+does not isolate this compatibility requirement.
+
+CI is now pinned to `ubuntu-22.04`; its currently published runner image uses
+`6.8.0-1070-azure`. A diagnostic step prints the actual kernel, and failure logs
+include container status as well as MongoDB output. App/database versions and
+local Docker settings are unchanged. The corrected GitHub run requires pushing
+this follow-up commit; local checks do not verify the hosted runner itself.
+
+The updated workflow passed actionlint 1.7.12 and YAML parsing. The existing
+local gate still passes: 45 tests / 262 assertions, Zeitwerk, production eager
+loading, and MongoDB connectivity.
+
+Reevaluate this temporary runner pin with future MongoDB/kernel updates. The
+[MongoDB release notes](https://www.mongodb.com/docs/v8.0/release-notes/8.0/)
+document the incompatibility; the
+[runner image manifest](https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md)
+documents the selected runner's kernel.
 
 ## Primary references
 
