@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '7.1.6'
+gem 'rails', '7.2.4'
 
 gem 'mongoid', '9.1.1'
 gem 'devise', '5.0.4'
