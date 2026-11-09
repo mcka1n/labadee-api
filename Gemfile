@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '6.1.7.10'
 
-gem 'mongoid', '9.0.12'
+gem 'mongoid', '9.1.1'
 gem 'devise', '~> 4.7.2'
 gem 'active_model_serializers', '0.10.16'
 gem 'geocoder', '~> 1.6.3'
