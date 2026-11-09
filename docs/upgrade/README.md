@@ -127,3 +127,7 @@ Rails 7.0.10 / Ruby 3.1.7 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 asserti
 Rails 7.1.6 / Ruby 3.1.7 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
 
 Rails 7.2.4 / Ruby 3.1.7 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
+
+The Ruby 3.4 dependency bridge (Geocoder 1.8.6 and the compatible current
+parser dependencies) passed independently on Ruby 3.1.7 / Rails 7.2.4:
+31 tests / 154 assertions, no failures/errors/skips.
