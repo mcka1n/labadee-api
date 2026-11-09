@@ -54,6 +54,6 @@ class ApiTest < ActionDispatch::IntegrationTest
 
   def assert_json_response(status)
     assert_response status
-    assert_match %r{application/json}, response.content_type
+    assert_equal 'application/json', response.media_type
   end
 end

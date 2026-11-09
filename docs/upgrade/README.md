@@ -73,3 +73,11 @@ Rails 5.2 and Mongoid 7 preserve BSON foreign keys and all JSON contracts.
 Minitest was moved to 5.15.0 after leaving the release-era Rails reporter.
 The hardcoded secret token was removed; remaining Rails 5 secrets configuration
 now reads the environment only. Defaults 5.2 passed separately.
+
+| 6.0.6.1 | 2.5.5 | 7.6.2 | 4.4.29 | 31 tests / 154 assertions; Zeitwerk passing |
+
+Rails 6.0 passed before and after enabling defaults 6.0. Logger is now required
+explicitly because newer concurrent-ruby no longer loads it for old Rails.
+The Content-Type assertion now checks `media_type` directly, removing a
+framework deprecation and one redundant assertion per response (same coverage).
+Zeitwerk eager loading passed.
