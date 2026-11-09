@@ -102,3 +102,6 @@ Mongoid 8.1.13 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 asse
 Mongoid 9.0.12 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips.
 
 Mongoid 9.1.1 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips.
+
+The Ruby 3 parser bridge (Nokogiri and its required parser dependencies) was
+verified independently on Ruby 2.7.8: 31 tests / 154 assertions, passing.
