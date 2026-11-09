@@ -110,3 +110,9 @@ verified independently on Ruby 2.7.8: 31 tests / 154 assertions, passing.
 
 Ruby 3.1.7 passed independently, including actual request authentication and
 MongoDB persistence. No keyword-argument regressions were introduced.
+
+| 6.1.7.10 | 3.1.7 | 9.1.1 | 8.0.34 | 31 tests / 154 assertions, passing |
+
+MongoDB 8.0.34 runs natively on the host architecture with its own volume.
+Mongoid's supported defaults version 9.1 is explicit. Existing 3.4/4.4 data
+volumes were not reused or converted.
