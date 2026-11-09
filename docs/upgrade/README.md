@@ -96,3 +96,5 @@ Ruby 2.7.8 was built independently with the same locked application gems and a
 separate gem volume; the complete regression suite passed.
 
 Mongoid 8.0.13 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips.
+
+Mongoid 8.1.13 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips.

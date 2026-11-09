@@ -106,8 +106,9 @@ GEM
     mongo (2.26.1)
       base64
       bson (>= 4.14.1, < 6.0.0)
-    mongoid (8.0.13)
-      activemodel (>= 5.1, < 7.2, != 7.0.0)
+    mongoid (8.1.13)
+      activemodel (>= 5.1, < 8.1, != 7.0.0)
+      concurrent-ruby (>= 1.0.5, < 2.0)
       mongo (>= 2.18.0, < 3.0.0)
       ruby2_keywords (~> 0.0.5)
     net-imap (0.2.2)
@@ -194,7 +195,7 @@ DEPENDENCIES
   devise (~> 4.7.2)
   geocoder (~> 1.6.3)
   minitest (= 5.15.0)
-  mongoid (= 8.0.13)
+  mongoid (= 8.1.13)
   rack-cors
   rails (= 6.1.7.10)
 
