@@ -98,3 +98,5 @@ separate gem volume; the complete regression suite passed.
 Mongoid 8.0.13 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips.
 
 Mongoid 8.1.13 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips.
+
+Mongoid 9.0.12 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips.
