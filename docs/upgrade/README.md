@@ -89,3 +89,8 @@ Defaults 6.1 passed separately. Spring and its binstub hooks were removed.
 
 Bundler 2.3.27 was verified independently on Rails 6.1 / Ruby 2.5.5:
 31 tests / 154 assertions, passing. The lockfile changed only its Bundler version.
+
+| 6.1.7.10 | 2.7.8 | 7.6.2 | 4.4.29 | 31 tests / 154 assertions, passing |
+
+Ruby 2.7.8 was built independently with the same locked application gems and a
+separate gem volume; the complete regression suite passed.
