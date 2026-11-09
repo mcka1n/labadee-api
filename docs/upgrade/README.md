@@ -66,3 +66,10 @@ At Rails 5.1 the compatible driver resolved to 2.21, which rejects MongoDB
 3.4's wire protocol. The gate caught this before advancement. A separate fresh
 MongoDB 4.4.29 volume was used, leaving the 3.4 volume intact. Defaults 5.1 were
 then enabled and the complete suite passed again.
+
+| 5.2.8.1 | 2.5.5 | 7.6.2 | 4.4.29 | 31 tests / 179 assertions, passing before and after defaults |
+
+Rails 5.2 and Mongoid 7 preserve BSON foreign keys and all JSON contracts.
+Minitest was moved to 5.15.0 after leaving the release-era Rails reporter.
+The hardcoded secret token was removed; remaining Rails 5 secrets configuration
+now reads the environment only. Defaults 5.2 passed separately.
