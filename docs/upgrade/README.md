@@ -34,3 +34,15 @@ Apple Silicon. These obsolete runtimes are for isolated local testing only.
 Execution results and necessary compatibility changes are recorded below as
 each checkpoint is verified. No checkpoint is considered passing until its
 tests have actually run.
+
+## Verified baseline
+
+Rails 5.0.0 / Ruby 2.5.5 / Mongoid 6.1.1 / MongoDB 3.4.24:
+**31 tests, 179 assertions, no failures/errors/skips**.
+
+Two original-toolchain repairs were required: an original-version-only OpenSSL
+cipher-key truncation shim (removed at Rails 5.0.7.2), and Minitest 5.9.1 for the
+Rails 5.0.0 reporter. No original application gem was otherwise changed.
+The observed foreign keys are BSON ObjectIds (Mongoid's association definitions
+override the declared String fields); JSON serializers expose strings. Geocoder
+stores coordinates in MongoDB longitude/latitude order. Both contracts are tested.

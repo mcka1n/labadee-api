@@ -8,3 +8,8 @@ gem 'devise', '~> 4.7.2'
 gem 'active_model_serializers', '~> 0.10.10'
 gem 'geocoder', '~> 1.6.3'
 gem 'rack-cors', :require => 'rack/cors'
+
+group :test do
+  # Rails 5.0.0's reporter requires the Minitest API from its release period.
+  gem 'minitest', '5.9.1'
+end
