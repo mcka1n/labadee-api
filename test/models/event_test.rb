@@ -11,6 +11,8 @@ class EventTest < ActiveSupport::TestCase
     assert_kind_of BSON::ObjectId, attendee.event_id
     assert_equal event.id, attendee.event_id
     assert_equal user.id, event.user_id
+    assert_equal user.id, Event.collection.find(_id: event.id).first['user_id']
+    assert_equal event.id, Attendee.collection.find(_id: attendee.id).first['event_id']
     assert_includes user.events.to_a, event
     assert_includes event.attendees.to_a, attendee
   end

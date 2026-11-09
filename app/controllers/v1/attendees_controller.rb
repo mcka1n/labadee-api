@@ -1,18 +1,14 @@
 module V1
   class AttendeesController < BaseController
-    def index
-      event = Event.where(id: params[:event_id]).first
+    before_action :load_event
 
-      if event.present?
-        render json: event.attendees
-      else
-        render json: [], status: 404
-      end
+    def index
+      render json: @event.attendees
     end
 
     def show
-      attendee = Attendee.where(id: params[:id]).first
-      if attendee.present?
+      attendee = @event.attendees.where(id: params[:id]).first if document_id?(params[:id])
+      if attendee
         render json: attendee
       else
         render json: {}, status: 404
@@ -20,20 +16,24 @@ module V1
     end
 
     def create
-      result = {}
-      event = Event.where(id: params[:event_id]).first
-      attendee = Attendee.create(
-        user_id: current_user.id,
-        event_id: event.id
-      )
-
-      if attendee.errors.messages.empty?
-        result = attendee
-        render json: result
+      attendee = Attendee.new(event: @event, user: current_user)
+      if attendee.save
+        render json: attendee
       else
-        result = attendee.errors
-        render json: result, status: 422
+        render json: attendee.errors, status: 422
       end
+    rescue Mongo::Error::OperationFailure => error
+      raise unless error.code == 11000
+
+      attendee.errors.add(:event_id, :taken)
+      render json: attendee.errors, status: 422
+    end
+
+    private
+
+    def load_event
+      @event = Event.where(id: params[:event_id]).first if document_id?(params[:event_id])
+      render json: (action_name == 'index' ? [] : {}), status: 404 unless @event
     end
   end
 end

@@ -148,3 +148,22 @@ Final configuration/server/audit-tool setup: 31 tests / 154 assertions passing,
 Zeitwerk passing, production eager loading and isolated MongoDB ping passing.
 SQL configuration, fixed secrets, empty SQL fixtures, and unused generator
 scaffolding were removed. Native final-image verification follows separately.
+
+## Explicit security and error corrections
+
+These changes are separate from the framework checkpoints:
+
+- Only event owners may update/delete; other authenticated users get 403.
+- Event parameters allow documented data fields, not ownership or timestamps.
+- Attendee lookup is constrained to the event in the URL.
+- Missing/malformed IDs return JSON 404; invalid updates return field errors/422.
+- Credentials must be strings; malformed login bodies cannot become selectors.
+- CORS permits the implemented methods and HEAD; both parameters and query paths redact credentials.
+- Unique indexes enforce the existing uniqueness rules; association fields use
+  Mongoid's BSON keys rather than misleading overwritten String declarations.
+
+Expanded gate: **44 tests / 257 assertions, passing**, including real unique-index
+rejection and idempotent private seeding. Zeitwerk and production eager loading /
+MongoDB connectivity passed. `bundler-audit` refreshed 1,353 advisories from the
+2026-11-09 database and found no vulnerabilities. Brakeman 8.1.0 reported zero
+warnings and zero errors, with no ignored findings.

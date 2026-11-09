@@ -1,50 +1,53 @@
 module V1
   class EventsController < BaseController
+    before_action :load_event, only: [:show, :update, :destroy]
+    before_action :authorize_owner, only: [:update, :destroy]
+
     def index
-      events = Event.all
-      render json: events
+      render json: Event.all
     end
 
     def show
-      event = Event.where(id: params[:id]).first
-      if event.present?
-        render json: event
-      else
-        render json: {}, status: 404
-      end
+      render json: @event
     end
 
     def create
-      result = {}
       event = Event.new(event_params)
-      event.user_id = current_user.id
-      event.save
-
-      if event.errors.messages.empty?
-        result = event
-        render json: result
+      event.user = current_user
+      if event.save
+        render json: event
       else
-        result = event.errors
-        render json: result, status: 422
+        render json: event.errors, status: 422
       end
     end
 
     def update
-      event = Event.where(id: params[:id]).first
-      event.update_attributes(event_params)
-
-      render json: event
+      if @event.update(event_params)
+        render json: @event
+      else
+        render json: @event.errors, status: 422
+      end
     end
 
     def destroy
-      event = Event.where(id: params[:id]).first
-      event.destroy
+      @event.destroy
+      head :no_content
     end
 
     private
 
+    def load_event
+      @event = Event.where(id: params[:id]).first if document_id?(params[:id])
+      render json: {}, status: 404 unless @event
+    end
+
+    def authorize_owner
+      render json: { message: 'Forbidden' }, status: 403 unless @event.user_id == current_user.id
+    end
+
     def event_params
-      params.required(:event).permit!
+      params.require(:event).permit(:name, :description, :address, :zip, :country,
+        :start_date, :end_date, :category, :hide, :rank, coordinates: [])
     end
   end
 end

@@ -5,6 +5,10 @@ require 'geocoder/lookups/test'
 
 Geocoder.configure(lookup: :test)
 
+database = Mongoid.default_client.database.name
+raise "Refusing to index non-test database #{database}" unless Rails.env.test? && database.end_with?('_test')
+[User, Client, Event, Attendee].each(&:create_indexes)
+
 class ActiveSupport::TestCase
   setup do
     database = Mongoid.default_client.database.name

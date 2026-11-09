@@ -38,6 +38,9 @@ class User
   has_many :events
   has_many :attendees, :dependent => :destroy
 
+  index({ email: 1 }, { unique: true })
+  index({ token: 1 })
+
   def assign_fresh_token!
     self.token = Devise.friendly_token
     self.save!

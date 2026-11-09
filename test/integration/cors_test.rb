@@ -1,8 +1,8 @@
 require 'test_helper'
 
 class CorsTest < ApiTest
-  test 'browser preflight permits JSON reads and creation' do
-    %w[GET POST].each do |method|
+  test 'browser preflight permits implemented JSON API methods' do
+    %w[GET POST PUT PATCH DELETE].each do |method|
       result = Rack::MockRequest.new(Rails.application).request('OPTIONS', '/v1/events',
         'HTTP_ORIGIN' => 'http://localhost:8080',
         'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => method,
