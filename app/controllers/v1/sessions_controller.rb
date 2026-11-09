@@ -1,10 +1,10 @@
 module V1
   class SessionsController < Devise::SessionsController
-    prepend_before_filter :require_no_authentication, :only => [:create ]
-    skip_before_filter :authenticate_user_with_token, :only => [:create ]
+    prepend_before_action :require_no_authentication, :only => [:create ]
+    skip_before_action :authenticate_user_with_token, :only => [:create ]
     #include Devise::Controllers::InternalHelpers
 
-    before_filter :ensure_params_exist
+    before_action :ensure_params_exist
     respond_to :json
 
     def new

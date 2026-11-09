@@ -11,3 +11,9 @@
 /log/*
 !/log/.keep
 /tmp
+
+.env
+.env.*
+!.env.example
+/.upgrade/
+/coverage/

@@ -1,6 +1,6 @@
 module V1
   class RegistrationsController < BaseController
-    skip_before_filter :authenticate_user_with_token, :only => [:create]
+    skip_before_action :authenticate_user_with_token, :only => [:create]
     respond_to :json
 
     def create

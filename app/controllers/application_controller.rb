@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
-  before_filter :authenticate_client
-  before_filter :authenticate_user_with_token
+  before_action :authenticate_client
+  before_action :authenticate_user_with_token
 
   respond_to :json
 

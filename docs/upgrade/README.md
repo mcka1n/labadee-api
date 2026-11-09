@@ -46,3 +46,16 @@ Rails 5.0.0 reporter. No original application gem was otherwise changed.
 The observed foreign keys are BSON ObjectIds (Mongoid's association definitions
 override the declared String fields); JSON serializers expose strings. Geocoder
 stores coordinates in MongoDB longitude/latitude order. Both contracts are tested.
+
+## Checkpoints
+
+| Rails | Ruby | Mongoid | MongoDB | Regression gate |
+|---|---|---|---|---|
+| 5.0.0 | 2.5.5 | 6.1.1 | 3.4.24 | 31 tests / 179 assertions, passing |
+| 5.0.7.2 | 2.5.5 | 6.1.1 | 3.4.24 | 31 tests / 179 assertions, passing |
+
+Rails 5.0.7.2 removes the temporary cipher shim. Deprecated callback names,
+static-file settings, and string middleware references were updated, and the
+unrelated sample CORS policy was removed. `app:update` was run and its generated
+SQL/assets/session scaffolding was reviewed and excluded because these frameworks
+are disabled or the original session behavior must be preserved.
