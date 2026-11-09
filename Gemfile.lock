@@ -130,7 +130,7 @@ GEM
     marcel (1.2.1)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
-    minitest (5.15.0)
+    minitest (5.27.0)
     mongo (2.26.1)
       base64
       bson (>= 4.14.1, < 6.0.0)
@@ -236,10 +236,13 @@ DEPENDENCIES
   active_model_serializers (= 0.10.16)
   devise (= 5.0.4)
   geocoder (= 1.8.6)
-  minitest (= 5.15.0)
+  minitest (~> 5.0)
   mongoid (= 9.1.1)
   rack-cors
   rails (= 7.2.4)
 
+RUBY VERSION
+  ruby 3.4.12
+
 BUNDLED WITH
-   2.3.27
+  4.0.24

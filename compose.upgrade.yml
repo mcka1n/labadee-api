@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile.upgrade
       args:
-        RUBY_VERSION: ${UPGRADE_RUBY_VERSION:-3.1.7}
-        BUNDLER_VERSION: ${UPGRADE_BUNDLER_VERSION:-2.3.27}
+        RUBY_VERSION: ${UPGRADE_RUBY_VERSION:-3.4.12}
+        BUNDLER_VERSION: ${UPGRADE_BUNDLER_VERSION:-4.0.24}
     environment:
       MONGODB_URI: mongodb://mongo:27017/labadee_upgrade_development
       MONGODB_TEST_URI: mongodb://mongo:27017/labadee_upgrade_test
@@ -33,4 +33,4 @@ volumes:
   upgrade_mongo:
     name: labadee-upgrade-mongo-${UPGRADE_MONGO_VERSION:-8.0.34}
   upgrade_gems:
-    name: labadee-upgrade-gems-${UPGRADE_RUBY_VERSION:-3.1.7}
+    name: labadee-upgrade-gems-${UPGRADE_RUBY_VERSION:-3.4.12}

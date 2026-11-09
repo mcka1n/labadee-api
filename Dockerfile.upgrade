@@ -1,7 +1,7 @@
-ARG RUBY_VERSION=3.1.7
+ARG RUBY_VERSION=3.4.12
 FROM ruby:${RUBY_VERSION}
 
-ARG BUNDLER_VERSION=2.3.27
+ARG BUNDLER_VERSION=4.0.24
 RUN gem install bundler -v "${BUNDLER_VERSION}" --no-document
 WORKDIR /app
 COPY Gemfile Gemfile.lock ./

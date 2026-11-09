@@ -131,3 +131,11 @@ Rails 7.2.4 / Ruby 3.1.7 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertio
 The Ruby 3.4 dependency bridge (Geocoder 1.8.6 and the compatible current
 parser dependencies) passed independently on Ruby 3.1.7 / Rails 7.2.4:
 31 tests / 154 assertions, no failures/errors/skips.
+
+The first Ruby 3.4 gate caught Minitest 5.15's dependency on removed stdlib
+`mutex_m`. The test framework is updated within the maintained 5.x line,
+without adding a legacy stdlib shim. The application gems remain unchanged.
+
+| 7.2.4 | 3.4.12 | 9.1.1 | 8.0.34 | 31 tests / 154 assertions, passing |
+
+The final Ruby runtime and Bundler 4.0.24 passed on Rails 7.2 before Rails 8.

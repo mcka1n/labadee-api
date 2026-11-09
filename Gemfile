@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '3.4.12'
 
 gem 'rails', '7.2.4'
 
@@ -9,5 +10,5 @@ gem 'geocoder', '1.8.6'
 gem 'rack-cors', :require => 'rack/cors'
 
 group :test do
-  gem 'minitest', '5.15.0'
+  gem 'minitest', '~> 5.0'
 end
