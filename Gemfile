@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rails', '6.1.7.10'
+gem 'rails', '7.0.10'
 
 gem 'mongoid', '9.1.1'
-gem 'devise', '~> 4.7.2'
+gem 'devise', '5.0.4'
 gem 'active_model_serializers', '0.10.16'
 gem 'geocoder', '~> 1.6.3'
 gem 'rack-cors', :require => 'rack/cors'
