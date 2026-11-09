@@ -1,15 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'rails', '6.0.6.1'
-gem 'spring', :group => :development
+gem 'rails', '6.1.7.10'
 
 gem 'mongoid', '7.6.2'
 gem 'devise', '~> 4.7.2'
-gem 'active_model_serializers', '~> 0.10.10'
+gem 'active_model_serializers', '0.10.16'
 gem 'geocoder', '~> 1.6.3'
 gem 'rack-cors', :require => 'rack/cors'
 
 group :test do
-  # Rails 5.0.0's reporter requires the Minitest API from its release period.
   gem 'minitest', '5.15.0'
 end

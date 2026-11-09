@@ -81,3 +81,8 @@ explicitly because newer concurrent-ruby no longer loads it for old Rails.
 The Content-Type assertion now checks `media_type` directly, removing a
 framework deprecation and one redundant assertion per response (same coverage).
 Zeitwerk eager loading passed.
+
+| 6.1.7.10 | 2.5.5 | 7.6.2 | 4.4.29 | 31 tests / 154 assertions, passing before and after defaults |
+
+Active Model Serializers 0.10.16 preserved the v1 response contracts.
+Defaults 6.1 passed separately. Spring and its binstub hooks were removed.
