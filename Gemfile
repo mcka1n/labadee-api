@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '3.4.12'
 
-gem 'rails', '7.2.4'
+gem 'rails', '8.0.5.2'
 
 gem 'mongoid', '9.1.1'
 gem 'devise', '5.0.4'
