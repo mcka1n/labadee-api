@@ -17,3 +17,5 @@
 !.env.example
 /.upgrade/
 /coverage/
+/config/master.key
+/config/credentials/*.key

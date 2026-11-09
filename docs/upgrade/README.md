@@ -143,3 +143,8 @@ The final Ruby runtime and Bundler 4.0.24 passed on Rails 7.2 before Rails 8.
 Rails 8.0.5.2 / Ruby 3.4.12 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
 
 Rails 8.1.4.1 / Ruby 3.4.12 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
+
+Final configuration/server/audit-tool setup: 31 tests / 154 assertions passing,
+Zeitwerk passing, production eager loading and isolated MongoDB ping passing.
+SQL configuration, fixed secrets, empty SQL fixtures, and unused generator
+scaffolding were removed. Native final-image verification follows separately.
