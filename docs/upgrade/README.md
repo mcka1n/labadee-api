@@ -18,7 +18,7 @@ MongoDB 8.0.34, platform `aarch64-linux`, and non-root UID 1000.
 
 Every checkpoint below passed before its commit/tag was created. Recovery tags
 are `upgrade/rails-VERSION`, `upgrade/ruby-VERSION`, `upgrade/mongoid-VERSION`,
-and `upgrade/mongodb-8.0.34`. Framework defaults were checked separately where
+and `upgrade/mongodb-8.0.34`. The final handoff is tagged `upgrade/complete`. Framework defaults were checked separately where
 supported; Zeitwerk checks began at Rails 6.0. See the root README for commands.
 
 ## Verified checkpoints
@@ -44,7 +44,7 @@ supported; Zeitwerk checks began at Rails 6.0. See the root README for commands.
 | 7.2.4 | 3.4.12 | 9.1.1 | 8.0.34 | 31 / 154 |
 | 8.0.5.2 | 3.4.12 | 9.1.1 | 8.0.34 | 31 / 154 |
 | 8.1.4.1 | 3.4.12 | 9.1.1 | 8.0.34 | 31 / 154 |
-| Final hardening/native image | 3.4.12 | 9.1.1 | 8.0.34 | **45 / 262** |
+| 8.1.4.1 (final native image) | 3.4.12 | 9.1.1 | 8.0.34 | **45 / 262** |
 
 All listed gates had zero failures, errors, and skips. The assertion count
 changed at Rails 6.0 because the deprecated MIME-type regex assertion became a

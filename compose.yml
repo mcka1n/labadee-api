@@ -1,0 +1,28 @@
+name: labadee
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      RAILS_ENV: development
+      MONGODB_URI: mongodb://mongo:27017/labadee_api_development
+      MONGODB_TEST_URI: mongodb://mongo:27017/labadee_api_test
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:?Run bin/configure first to create local credentials}
+      SEED_EMAIL: ${SEED_EMAIL:-developer@example.test}
+      SEED_PASSWORD: ${SEED_PASSWORD:-}
+      SEED_CLIENT_NAME: ${SEED_CLIENT_NAME:-local-development}
+    depends_on:
+      mongo:
+        condition: service_healthy
+  mongo:
+    image: mongo:8.0.34
+    volumes:
+      - mongo_8_0:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "quit(db.adminCommand('ping').ok ? 0 : 1)"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+volumes:
+  mongo_8_0:
