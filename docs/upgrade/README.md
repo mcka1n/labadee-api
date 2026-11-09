@@ -105,3 +105,8 @@ Mongoid 9.1.1 / Rails 6.1.7.10 / Ruby 2.7.8 / MongoDB 4.4.29: 31 runs, 154 asser
 
 The Ruby 3 parser bridge (Nokogiri and its required parser dependencies) was
 verified independently on Ruby 2.7.8: 31 tests / 154 assertions, passing.
+
+| 6.1.7.10 | 3.1.7 | 9.1.1 | 4.4.29 | 31 tests / 154 assertions, passing |
+
+Ruby 3.1.7 passed independently, including actual request authentication and
+MongoDB persistence. No keyword-argument regressions were introduced.
