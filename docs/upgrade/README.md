@@ -123,3 +123,5 @@ Rails 7.0 initially exposed Devise 4.7.2's removed
 committed. The existing HTTP authentication suite remains the acceptance gate.
 
 Rails 7.0.10 / Ruby 3.1.7 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
+
+Rails 7.1.6 / Ruby 3.1.7 / Mongoid 9.1.1 / MongoDB 8.0.34: 31 runs, 154 assertions, 0 failures, 0 errors, 0 skips before and after defaults; Zeitwerk passing.
