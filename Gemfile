@@ -16,5 +16,5 @@ group :development, :test do
 end
 
 group :test do
-  gem 'minitest', '5.27.0'
+  gem 'minitest', '6.1.0'
 end
