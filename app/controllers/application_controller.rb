@@ -1,23 +1,24 @@
 class ApplicationController < ActionController::API
-  before_filter :authenticate_client
-  before_filter :authenticate_user_with_token
+  before_action :authenticate_client
+  before_action :authenticate_user_with_token
 
   respond_to :json
 
   protected
 
   def authenticate_client
-    @current_client ||= Client.where(key: params[:key]).first
-    if !@current_client
-      render json: {message: "Invalid Client Key"}, status: :unauthorized
-    end
+    key = params[:key]
+    @current_client = Client.where(key: key).first if key.is_a?(String) && key.present?
+    render json: { message: 'Invalid Client Key' }, status: :unauthorized unless @current_client
   end
 
   def authenticate_user_with_token
-    if params[:token] && user = User.where(token: params[:token]).first
-      @current_user = user
-    else
-      render json: {message: "Invalid token"}, status: :unauthorized
-    end
+    token = params[:token]
+    @current_user = User.where(token: token).first if token.is_a?(String) && token.present?
+    render json: { message: 'Invalid token' }, status: :unauthorized unless @current_user
+  end
+
+  def document_id?(value)
+    value.is_a?(String) && BSON::ObjectId.legal?(value)
   end
 end

@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+RAILS_ENV=test bundle exec rails test
+RAILS_ENV=test bundle exec rails zeitwerk:check
+RAILS_ENV=production MONGODB_URI="${MONGODB_TEST_URI:?Set MONGODB_TEST_URI for isolated checks}" \
+  bundle exec rails runner 'Rails.application.eager_load!; Mongoid.default_client.database.command(ping: 1); puts "Production configuration and MongoDB connection OK"'

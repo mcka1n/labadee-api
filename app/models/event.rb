@@ -3,7 +3,6 @@ class Event
   include Mongoid::Timestamps
   include Geocoder::Model::Mongoid
 
-  field :user_id,         type: String
   field :name,            type: String      # This will have the title/word.
   field :description,     type: String
   field :address,         type: String
@@ -20,6 +19,9 @@ class Event
 
   belongs_to :user
   has_many :attendees, :dependent => :destroy
+
+  index({ user_id: 1 })
+  index({ name: 1 }, { unique: true })
 
   validates :name, presence: true, uniqueness: true
   validates :user_id, presence: true

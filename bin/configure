@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+require 'securerandom'
+
+path = File.expand_path('../.env', __dir__)
+begin
+  File.open(path, File::WRONLY | File::CREAT | File::EXCL, 0o600) do |file|
+    file.puts "SECRET_KEY_BASE=#{SecureRandom.hex(64)}"
+    file.puts 'SEED_EMAIL=developer@example.test'
+    file.puts "SEED_PASSWORD=#{SecureRandom.hex(16)}"
+    file.puts 'SEED_CLIENT_NAME=local-development'
+  end
+rescue Errno::EEXIST
+  abort '.env already exists; keeping its credentials. Edit it directly if needed.'
+end
+puts 'Created .env with random local credentials. Keep this file private.'

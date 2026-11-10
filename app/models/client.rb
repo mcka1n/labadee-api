@@ -10,6 +10,9 @@ class Client
   before_create :generate_special_key
   validates :name, presence: true, uniqueness: true
 
+  index({ name: 1 }, { unique: true })
+  index({ key: 1 }, { unique: true })
+
   private
 
   def generate_special_key

@@ -1,10 +1,10 @@
 module V1
   class SessionsController < Devise::SessionsController
-    prepend_before_filter :require_no_authentication, :only => [:create ]
-    skip_before_filter :authenticate_user_with_token, :only => [:create ]
+    prepend_before_action :require_no_authentication, :only => [:create ]
+    skip_before_action :authenticate_user_with_token, :only => [:create ]
     #include Devise::Controllers::InternalHelpers
 
-    before_filter :ensure_params_exist
+    before_action :ensure_params_exist
     respond_to :json
 
     def new
@@ -13,6 +13,7 @@ module V1
 
     def create
       #build_resource
+      return invalid_login_attempt unless params[:user][:email].is_a?(String) && params[:user][:password].is_a?(String)
       resource = User.find_for_database_authentication(:email=>params[:user][:email])
       return invalid_login_attempt unless resource
 
@@ -32,7 +33,7 @@ module V1
     protected
     
     def ensure_params_exist
-      return unless params[:user].blank?
+      return if params[:user].is_a?(ActionController::Parameters) && params[:user].present?
       render :json=>{:success=>false, :message=>"missing user parameter"}, :status=>422
     end
 

@@ -1,0 +1,38 @@
+name: CI
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 8 1 * *'
+permissions:
+  contents: read
+jobs:
+  verify:
+    # MongoDB 8.0.34 rejects kernels 6.19+ (SERVER-121912). The current
+    # Ubuntu 22.04 runner uses kernel 6.8; revisit after MongoDB/kernel updates.
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      SECRET_KEY_BASE: ci-only-isolated-test-environment-secret-key-base-not-used-for-deployment
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Show runner kernel
+        run: uname -sr
+      - name: Build pinned runtime
+        run: docker compose build app
+      - name: Run tests and application checks
+        run: docker compose run --rm app bin/check
+      - name: Audit dependencies
+        run: docker compose run --rm app bundle-audit check --update
+      - name: Static security analysis
+        run: docker compose run --rm app brakeman --no-pager --exit-on-warn --exit-on-error
+      - name: Show service logs
+        if: failure()
+        run: |
+          docker compose ps -a
+          docker compose logs --no-color
+      - name: Stop services
+        if: always()
+        run: docker compose down
